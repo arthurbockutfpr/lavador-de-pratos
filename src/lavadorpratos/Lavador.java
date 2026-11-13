@@ -2,7 +2,6 @@ package lavadorpratos;
 
 import java.util.logging.Logger;
 
-/** Produtor: cria pratos sujos, lava e coloca no escorredor. */
 public class Lavador implements Runnable {
 
     private static final Logger LOGGER = Logger.getLogger(Lavador.class.getName());
@@ -14,7 +13,6 @@ public class Lavador implements Runnable {
         this.escorredor = escorredor;
     }
 
-    /** Sinaliza o fim do trabalho (condicao de termino). */
     public void parar() {
         this.done = true;
     }
@@ -24,8 +22,8 @@ public class Lavador implements Runnable {
         LOGGER.fine("Lavador iniciou o trabalho");
         while (!done) {
             try {
-                escorredor.aguardarEspaco();      // so cria prato novo se houver espaco
-                Prato prato = new Prato();        // pilha infinita de pratos sujos
+                escorredor.aguardarEspaco();
+                Prato prato = new Prato();
                 LOGGER.fine(() -> "Lavando " + prato);
                 lavar(prato);
                 LOGGER.fine(() -> prato + " lavado");

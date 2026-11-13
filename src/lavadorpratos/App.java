@@ -10,11 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-/**
- * Instancia a aplicacao Produtor/Consumidor.
- * Uso: java lavadorpratos.App [lavadores] [enxugadores] [capacidade] [nivelDeLog]
- * Exemplo: java lavadorpratos.App 3 2 5 FINE
- */
 public class App {
 
     private static final Logger LOGGER = Logger.getLogger(App.class.getName());
@@ -39,7 +34,6 @@ public class App {
         this.escorredor = new Escorredor(capacidadeEscorredor);
     }
 
-    /** Dispara os trabalhos: cria e inicia as threads de lavadores e enxugadores. */
     public void iniciar() {
         LOGGER.info("Iniciando: " + quantidadeLavadores + " lavador(es) e "
                 + quantidadeEnxugadores + " enxugador(es)");
@@ -59,10 +53,6 @@ public class App {
         }
     }
 
-    /**
-     * Encerra os trabalhos. Primeiro param os lavadores (ninguem produz mais),
-     * depois os enxugadores, que esvaziam o escorredor antes de terminar.
-     */
     public void parar() throws InterruptedException {
         LOGGER.info("Encerrando os trabalhos...");
         lavadores.forEach(Lavador::parar);
@@ -74,10 +64,6 @@ public class App {
                 + (escorredor.estaVazio() ? "nenhum" : "AINDA HA PRATOS"));
     }
 
-    /**
-     * Interrompe as threads repetidamente ate terminarem. Como notifyAll e proibido,
-     * a interrupcao e o que tira da espera uma thread bloqueada em wait().
-     */
     private void aguardarTermino(List<Thread> threads) throws InterruptedException {
         for (Thread thread : threads) {
             while (thread.isAlive()) {
@@ -96,7 +82,7 @@ public class App {
 
         App app = new App(lavadores, enxugadores, capacidade);
         app.iniciar();
-        Thread.sleep(DURACAO_EXECUCAO_MS);   // aguarda 1 minuto
+        Thread.sleep(DURACAO_EXECUCAO_MS);
         app.parar();
     }
 
@@ -111,7 +97,6 @@ public class App {
         return valor;
     }
 
-    /** Console com uma linha por mensagem: hora [thread] mensagem. */
     private static void configurarLog(Level nivel) {
         Logger raiz = Logger.getLogger("");
         for (Handler handler : raiz.getHandlers()) {

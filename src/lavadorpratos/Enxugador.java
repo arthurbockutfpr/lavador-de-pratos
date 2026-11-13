@@ -3,7 +3,6 @@ package lavadorpratos;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 
-/** Consumidor: retira pratos do escorredor e enxuga. */
 public class Enxugador implements Runnable {
 
     private static final Logger LOGGER = Logger.getLogger(Enxugador.class.getName());
@@ -19,7 +18,6 @@ public class Enxugador implements Runnable {
         this.escorredor = escorredor;
     }
 
-    /** Sinaliza o fim do trabalho; o enxugador ainda esvazia o escorredor antes de sair. */
     public void parar() {
         this.done = true;
     }
@@ -27,7 +25,6 @@ public class Enxugador implements Runnable {
     @Override
     public void run() {
         LOGGER.fine("Enxugador iniciou o trabalho");
-        // So termina quando recebeu done E nao ha mais pratos molhados
         while (!done || !escorredor.estaVazio()) {
             try {
                 Prato prato = escorredor.retirar();
@@ -43,7 +40,6 @@ public class Enxugador implements Runnable {
     }
 
     private void enxugar(Prato prato) {
-        // Sorteia de 3 a 10 passos de 10 milhoes: 30M, 40M, ..., 100M
         int passos = ThreadLocalRandom.current().nextInt(MINIMO_DE_PASSOS, MAXIMO_DE_PASSOS + 1);
         long contagem = SimuladorDeTempo.contarAte(passos * PASSO_DE_CICLOS);
         LOGGER.finer(() -> "Contagem do enxugamento concluida: " + contagem);
